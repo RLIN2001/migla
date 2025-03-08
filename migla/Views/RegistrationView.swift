@@ -1,16 +1,17 @@
 //
-//  RegisterView.swift
+//  LoginView.swift
 //  migla
 //
-//  Created by Riccardo Lin on 09/03/25.
+//  Created by Riccardo Lin on 23/02/25.
 //
-
 import SwiftUI
+import SwiftData
 
-struct LoginView: View {
+struct RegistrationView: View {
+    @State private var fullName: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
-    @Environment(\.dismiss) var dismiss
+    @State private var confirmPassword: String = ""
     
     var body: some View {
         ZStack {
@@ -33,36 +34,44 @@ struct LoginView: View {
             }
             
             VStack(spacing: 25) {
-                Text("Welcome back")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.top, 50)
+                Spacer()
+                    .frame(height: 60)
                 
-                Image("welcome_image") 
+                Image("logo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200, height: 200)
-                    .padding(.vertical, 20)
+                    .frame(width: 300, height: 100)
                 
-                VStack(spacing: 20) {
+                Text("Welcome to MIGLA!")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                
+                Text("Let's be together in your child's progress")
+                    .multilineTextAlignment(.center)
+                    .fontWeight(.bold)
+
+                
+                VStack(spacing: 15) {
+                    TextField("Nome e cognome genitore", text: $fullName)
+                        .textFieldStyle(RoundedTextFieldStyle())
+                    
                     TextField("Email", text: $email)
-                        .textFieldStyle(CustomTextFieldStyle())
+                        .textFieldStyle(RoundedTextFieldStyle())
                         .autocapitalization(.none)
                     
                     SecureField("Password", text: $password)
-                        .textFieldStyle(CustomTextFieldStyle())
+                        .textFieldStyle(RoundedTextFieldStyle())
+                    
+                    SecureField("Conferma password", text: $confirmPassword)
+                        .textFieldStyle(RoundedTextFieldStyle())
                 }
                 .padding(.horizontal, 20)
                 
-                Button(action: {
-                }) {
-                    Text("Forget password ?")
-                        .foregroundColor(.blue)
-                }
+                Spacer()
                 
                 Button(action: {
                 }) {
-                    Text("Login")
+                    Text("Sign Up")
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -71,18 +80,13 @@ struct LoginView: View {
                         .cornerRadius(10)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 20)
                 
                 HStack {
-                    Text("Don't have an account?")
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Text("Sign Up")
-                            .foregroundColor(.blue)
-                    }
+                    Text("Already have an account?")
+                    Text("Sign In")
+                        .foregroundColor(.blue)
                 }
-                .padding(.top, 10)
+                .padding(.vertical)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -91,17 +95,16 @@ struct LoginView: View {
     }
 }
 
-struct CustomTextFieldStyle: TextFieldStyle {
+struct RoundedTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .padding()
-            .background(Color.gray.opacity(0.2))
+            .background(Color.white)
             .cornerRadius(32)
+            .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
 }
 
 #Preview {
-    LoginView()
+    RegistrationView()
 }
-
-
